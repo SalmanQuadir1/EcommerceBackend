@@ -1,0 +1,23 @@
+[
+    {
+        "name":"rest1",
+        "price":80.90,
+        "description":"kmnkcdmcm",
+        "ratings":4.5,
+        "images":[
+            {
+                 "publiic_id":"ndjdhhuijnjjhjj"
+            },
+            {
+                "url":"ndjdhhuijnjjhjj"
+            }
+            
+        ],
+        "category":"Electronics",
+        "seller":"Ebay",
+        "stock":50,
+        "noOfReviews":50,
+        "reviews":[]
+    }
+    
+]
