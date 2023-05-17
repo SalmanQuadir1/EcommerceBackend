@@ -5,6 +5,61 @@ const APIFeatures = require("../utils/apiFeatures");
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const cloudinary = require('cloudinary')
 
+exports.importProducts = async (req, res, next) => {
+    try {
+        csv()
+            .fromFile(req.file.path)
+            .then((jsonObj) => {
+                json = jsonObj;
+
+
+                for (let i = 0; i < jsonObj.length; i++) {
+                    // console.log(jsonObj[i]);
+                    saveProducts(jsonObj[i], req)
+                }
+            })
+
+
+
+    } catch (error) {
+        res.send(
+            {
+                status: 400,
+                success: false,
+                message: error.message
+            }
+        )
+
+    }
+    res.status(200).json({
+        success: true,
+        message: "Api working "
+    })
+
+}
+
+const saveProducts = async (prod, req) => {
+    // prod.user = req.user.id;
+    prod.user = "643d09122dcc8c8060b3015e";
+    const product = await Product.create(prod);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
     let images = [];
     if (typeof req.body.images === 'string') {

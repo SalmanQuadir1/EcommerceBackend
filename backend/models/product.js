@@ -13,6 +13,15 @@ const productSchema = new mongoose.Schema({
         maxLength: [5, 'Length cannot be more than 5 characters'],
         default: 0.0
     },
+    productWeightPrice: [
+        {
+            weight: { type: Number, required: false },
+            size: { type: String, required: false },
+            unit: { type: Number, required: false },
+            qty: { type: Number, required: false },
+            price: { type: Number, required: false }
+        }
+    ],
     description: {
         type: String,
         required: [true, 'Please enter product description']
