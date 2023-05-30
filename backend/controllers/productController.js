@@ -4,14 +4,13 @@ const ErrorHandler = require("../utils/errorHandler");
 const APIFeatures = require("../utils/apiFeatures");
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const cloudinary = require('cloudinary')
+const csv = require('csvtojson')
 
 exports.importProducts = async (req, res, next) => {
     try {
         csv()
             .fromFile(req.file.path)
             .then((jsonObj) => {
-                json = jsonObj;
-
 
                 for (let i = 0; i < jsonObj.length; i++) {
                     // console.log(jsonObj[i]);
@@ -61,7 +60,10 @@ const saveProducts = async (prod, req) => {
 
 
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
+
     let images = [];
+
+
     if (typeof req.body.images === 'string') {
         images.push(req.body.images)
     } else {
@@ -78,8 +80,19 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
             url: result.secure_url
         })
     }
+    let pwp = JSON.parse(req.body.productWeightPrice)
+    pwp.forEach((itm) => {
+        pwp.weight = parseFloat(itm.weight);
+        pwp.price = parseFloat(itm.price);
+        pwp.units = itm.units;
+        pwp.quantity = parseInt(itm.quantity);
+        pwp.size = itm.size;
+
+    })
+    req.body.productWeightPrice = pwp;
     req.body.images = imagesLinks;
     req.body.user = req.user.id;
+
     const product = await Product.create(req.body);
     res.status(201).json({
         success: true,
@@ -117,7 +130,6 @@ exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {
 })
 //update  product/api/v1/product/:id
 exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
-
     let product = await Product.findById(req.params.id);
     if (!product) {
         return next(new ErrorHandler("Product Not Found", 404));
@@ -148,8 +160,20 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
             })
         }
         req.body.images = imagesLinks;
+       
 
     }
+    console.log(req.body);
+    let pwp = JSON.parse(req.body.productWeightPrice)
+    pwp.forEach((itm) => {
+        pwp.weight = parseFloat(itm.weight);
+        pwp.price = parseFloat(itm.price);
+        pwp.units = itm.units;
+        pwp.quantity = parseInt(itm.quantity);
+        pwp.size = itm.size;
+
+    })
+    req.body.productWeightPrice = pwp;
 
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
         new: true,

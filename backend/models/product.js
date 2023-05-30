@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: [true, 'Please enter product name'],
+        required: [false, 'Please enter product name'],
         maxLength: [5, 'Length cannot be more than 5 characters'],
         default: 0.0
     },
@@ -17,8 +17,8 @@ const productSchema = new mongoose.Schema({
         {
             weight: { type: Number, required: false },
             size: { type: String, required: false },
-            unit: { type: Number, required: false },
-            qty: { type: Number, required: false },
+            units: { type: String, required: false },
+            quantity: { type: Number, required: false },
             price: { type: Number, required: false }
         }
     ],

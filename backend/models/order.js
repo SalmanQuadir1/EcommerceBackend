@@ -50,6 +50,19 @@ const orderSchema = mongoose.Schema({
                 required: true
 
             },
+            weight:{
+                type:Number,
+                required:true
+
+            },
+            size:{
+                type:String,
+                required:true
+            },
+            units:{
+                type:String,
+                required:true
+            },
             id: {
                 type: mongoose.Schema.Types.ObjectId,
                  required: true,

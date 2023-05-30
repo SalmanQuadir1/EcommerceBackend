@@ -14,7 +14,7 @@ dotenv.config({ path: 'backend/config/config.env' });
 
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-app.use(express.urlencoded({limit:'50mb',extended:true}));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.resolve(__dirname, 'public')));
 
 
@@ -25,7 +25,7 @@ app.use(cookieParser());
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         console.log(file.originalname)
-        cb(null,  'backend/public/uploads/')
+        cb(null, 'backend/public/uploads/')
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + file.originalname)
@@ -47,7 +47,7 @@ app.use('/api/v1', products);
 app.use('/api/v1', users);
 app.use('/api/v1', order);
 app.use('/api/v1', payment);
-app.post("/upload", upload.single('file'),importProducts);
+app.post("/upload", upload.single('file'), importProducts);
 
 
 app.use(errorMiddleware);
